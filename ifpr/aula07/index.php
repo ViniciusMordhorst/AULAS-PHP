@@ -3,7 +3,8 @@
 
     $msg = NULL;
     $nome = NULL;
-
+    $arquivos = array();
+    
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {// METODO POST 
         $pasta = __DIR__ . "/arquivos/";
         $arquivo = $_FILES['arquivo']['name'];
@@ -35,7 +36,16 @@
         }
 
     } else {// METODO GET
-   
+
+        $query = $bancoDados->prepare("SELECT nome FROM arquivos ORDER BY nome");
+        if ($query->execute()) {
+            if ($query->rowCount() > 0) {
+             $arquivos = $query->fetchAll(PDO::FETCH_OBJ);
+
+            }
+
+        }
+        
     }
     
    
@@ -64,10 +74,36 @@
                 <section>
                     <button type="submit">Enviar</button>
                 </section>
-                </form>
+               
                 <section id="msg">
                     <?= !is_null($msg) ? $msg : ''?>
                 </section>
+                </form>
+                <?php 
+                    if (count($arquivos) > 0) {
+                    
+                ?>
+                    <h2>Arquivos</h2>
+                        <section>
+                        <ul>
+                <?php
+                        foreach ($arquivos as $arquivo) {
+                ?>
+                        <li>
+                            <a href="download.php?arquivo=<?=$arquivo->nome?>">
+                            <?=$arquivo->nome ?>
+                            </a>
+
+
+                        </li>
+                <?php
+                    }
+                ?>
+                        </ul>
+                        </section>
+                <?php
+                    }
+                ?>
         </main>
 
 
