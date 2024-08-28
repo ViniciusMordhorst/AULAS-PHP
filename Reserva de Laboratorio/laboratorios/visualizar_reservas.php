@@ -11,16 +11,17 @@ if (!isset($_SESSION['usuario'])) {
 $usuario = unserialize(base64_decode($_SESSION['usuario']));
 $usuario_id = $usuario['id'];
 $usuario_tipo = $usuario['tipo'];
+
 // Obtenha a lista de laboratórios disponíveis
 $query = $bancoDados->query("SELECT id, nome FROM laboratorio");
 $laboratorios = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $reservas = [];
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['laboratorio'])) {
     $laboratorio_id = $_POST['laboratorio'];
 
     // Obtenha as reservas para o laboratório selecionado
-    $queryReservas = $bancoDados->prepare("SELECT r.DESCRICAO, r.DATA, r.HORA_INICIO, r.HORA_FIM, p.nome AS usuario_nome 
+    $queryReservas = $bancoDados->prepare("SELECT r.id, r.DESCRICAO, r.DATA, r.HORA_INICIO, r.HORA_FIM, p.id AS usuario_id, p.nome AS usuario_nome 
                                            FROM reserva r 
                                            JOIN pessoa p ON r.PESSOA_ID = p.id 
                                            WHERE r.LABORATORIO_ID = :laboratorio_id 
@@ -42,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <ul class="menu">
-        <?php if ($usuario_tipo == 0) { // Apenas usuarios comuns?>
-            <li><a href="../dashboard.php">Home</a></li>
+            <?php if ($usuario_tipo == 0) { // Apenas usuários comuns ?>
+                <li><a href="../dashboard.php">Home</a></li>
             <?php } ?>
         
             <?php if ($usuario_tipo == 1) { // Apenas admins podem acessar essas páginas ?>
@@ -77,34 +78,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
 
         <?php if (!empty($reservas)) { ?>
-    <h3>Reservas para o Laboratório Selecionado:</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Descrição</th>
-                <th>Data</th>
-                <th>Hora Início</th>
-                <th>Hora Fim</th>
-                <th>Usuário</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($reservas as $reserva) { ?>
-                <tr>
-                    <td><?= htmlspecialchars($reserva['DESCRICAO'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($reserva['DATA'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($reserva['HORA_INICIO'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($reserva['HORA_FIM'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($reserva['usuario_nome'], ENT_QUOTES, 'UTF-8') ?></td>
-                </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-<?php } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
-    <p></p>
-    <p class="mensagem-erro">Não há reservas para o laboratório selecionado.</p>
-<?php } ?>
+            <h3 class="mensagem-sucesso">Reservas para o Laboratório Selecionado:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Hora Início</th>
+                        <th>Hora Fim</th>
+                        <th>Usuário</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($reservas as $reserva) { ?>
+                        <tr>
+                            <td><?= htmlspecialchars($reserva['DESCRICAO'], ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= htmlspecialchars($reserva['DATA'], ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= htmlspecialchars($reserva['HORA_INICIO'], ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= htmlspecialchars($reserva['HORA_FIM'], ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= htmlspecialchars($reserva['usuario_nome'], ENT_QUOTES, 'UTF-8') ?></td>
+                            <td>
+                                <?php if ($usuario_tipo == 1 || $usuario_id == $reserva['usuario_id']) { ?>
+                                            <form method="post" action="gerenciarreserva.php">
+                                                <input type="hidden" name="reserva_id" value="<?= $reserva['id'] ?>">
+                                                    <button type="submit">Gerenciar </button>
+                                            </form>
+                                <?php } ?>
+                            </td>
 
+
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        <?php } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
+            <p></p>
+            <p class="mensagem-erro">Não há reservas para o laboratório selecionado.</p>
+        <?php } ?>
     </div>
 </body>
 </html>

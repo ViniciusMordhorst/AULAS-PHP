@@ -429,7 +429,7 @@ class PHPMailer
      *
      * @see SMTP::$Debugoutput
      *
-     * @var string|callable|\Psr\Log\LoggerInterface
+     
      */
     public $Debugoutput = 'echo';
 

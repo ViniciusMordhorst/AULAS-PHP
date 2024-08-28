@@ -65,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query->execute();
         if ($query->rowCount() == 0) {
             if ($editar) {
-                $sql = "UPDATE pessoa SET nome = :nome, email = :email, tipo = :tipo";
+                // Update query with CURRENT_TIMESTAMP for ATUALIZADO_EM
+                $sql = "UPDATE pessoa SET nome = :nome, email = :email, tipo = :tipo, ATUALIZADO_EM = CURRENT_TIMESTAMP";
                 if (!empty($senha)) {
                     $sql .= ", senha = :senha";
                 }
@@ -78,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             } else {
                 $senha = password_hash($senha, PASSWORD_DEFAULT);
-                $query = $bancoDados->prepare("INSERT INTO pessoa (nome, email, senha, tipo) VALUES (:nome, :email, :senha, :tipo)");
+                $query = $bancoDados->prepare("INSERT INTO pessoa (nome, email, senha, tipo, CRIADO_EM) VALUES (:nome, :email, :senha, :tipo, CURRENT_TIMESTAMP)");
                 $query->bindParam(':senha', $senha);
             }
 

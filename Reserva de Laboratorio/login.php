@@ -26,13 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     $_SESSION['usuario'] = base64_encode(serialize($usuario));
 
-                       // Redireciona para a página adequada
-                       if ($row->tipo == 1) { // Tipo 1 é Admin
+                    // Atualize a data e hora do último login usando CURRENT_TIMESTAMP
+                    $usuario_id = $row->id;
+                    $updateQuery = $bancoDados->prepare("UPDATE pessoa SET ULTIMO_LOGIN = CURRENT_TIMESTAMP WHERE id = :usuario_id");
+                    $updateQuery->bindParam(':usuario_id', $usuario_id);
+                    $updateQuery->execute();
+
+                    // Redireciona para a página adequada
+                    if ($row->tipo == 1) { // Tipo 1 é Admin
                         header('Location: usuario/home.php');
                     } else {
                         header('Location: dashboard.php');
                     }
-                    exit();;
+                    exit();
                 } else {
                     $erro = "Login ou senha incorretos!";
                 }
@@ -71,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" name="senha" id="senha">
                 <div class="esqueceu-senha"></div>
                 <div><a href="recuperarsenha.php">Esqueceu a senha?</a></div>
-         
+                <p>Não tem uma conta? <a href="cadastrologin.php">Cadastre-se aqui</a></p>
                 <span><?= htmlspecialchars($erro ?? '', ENT_QUOTES, 'UTF-8') ?></span>
             </div>
             <div>

@@ -1,7 +1,10 @@
 <?php
+
+ob_start();
 require_once('../includes/conexao.inc.php');
-require_once('../controllers/ReservaController.php');
-session_start();
+require_once('../controllers/reservaController.php');
+require_once('../enviarEmail.php'); // Certifique-se de que este caminho está correto
+
 
 // Verifique se o usuário está logado
 if (!isset($_SESSION['usuario'])) {
@@ -45,12 +48,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Insira a reserva no banco de dados
             if ($reservaController->criarReserva($usuario_reserva_id, $laboratorio_id, $descricao, $data_reserva, $hora_inicio, $hora_fim)) {
                 $_SESSION['mensagem_sucesso'] = "Reserva realizada com sucesso!";
-                if ($usuario_tipo == 1) {
-                    header('Location: ../usuario/home.php');
+                
+                // Obtenha os dados do usuário para quem a reserva foi feita
+                $queryUsuario = $bancoDados->prepare("SELECT email, nome FROM pessoa WHERE id = :usuario_id");
+                $queryUsuario->bindParam(':usuario_id', $usuario_reserva_id, PDO::PARAM_INT);
+                $queryUsuario->execute();
+                $usuarioReserva = $queryUsuario->fetch(PDO::FETCH_ASSOC);
+
+                // Envie o e-mail de confirmação
+                $erro = enviarEmail($usuarioReserva['email'], $usuarioReserva['nome'], $descricao, $data_reserva, $hora_inicio, $hora_fim);
+                if ($erro) {
+                    echo "Erro ao enviar o e-mail: " . htmlspecialchars($erro, ENT_QUOTES, 'UTF-8');
                 } else {
-                    header('Location: dashboard.php');
+                    // Redirecione após enviar o e-mail
+                    if ($usuario_tipo == 1) {
+                        header('Location: reserva.php');
+                    } else {
+                        header('Location: reserva.php');
+                    }
+                    exit();
                 }
-                exit();
             } else {
                 $erro = "Erro ao realizar a reserva.";
             }
@@ -74,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <ul class="menu">
-        <?php if ($usuario_tipo == 0) { // Apenas usuarios comuns?>
+        <?php if ($usuario_tipo == 0) { // Apenas usuários comuns?>
             <li><a href="../dashboard.php">Home</a></li>
             <?php } ?>
         

@@ -71,8 +71,8 @@ function isAdmin($usuario) {
                             </td>
                             <td>
                                 <?php if (isset($usuarioLogado) && isAdmin($usuarioLogado)) { ?>
-                                    <a href="cadastro.php?id=<?= htmlspecialchars($usuario->id, ENT_QUOTES, 'UTF-8') ?>" class="btn-editar">Editar</a>
-                                    <a href="excluir.php?id=<?= htmlspecialchars($usuario->id, ENT_QUOTES, 'UTF-8') ?>" class="btn-excluir">Excluir</a>
+                                    <a href="cadastro.php?id=<?= htmlspecialchars($usuario->id, ENT_QUOTES, 'UTF-8') ?>" class="btn-editar" >Editar</a>
+                                    <a href="excluir.php?id=<?= htmlspecialchars($usuario->id, ENT_QUOTES, 'UTF-8') ?>" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir esta usuario?')">Excluir</a>
                                 <?php } ?>
                             </td>
                         </tr>
