@@ -1,26 +1,26 @@
 <?php
-
+// Cria uma reserva, usa os metodos do controller e envia um email ao finalizar
 ob_start();
 require_once('../includes/conexao.inc.php');
 require_once('../controllers/reservaController.php');
-require_once('../enviarEmail.php'); // Certifique-se de que este caminho está correto
+require_once('../enviarEmail.php'); 
 
 
-// Verifique se o usuário está logado
+
 if (!isset($_SESSION['usuario'])) {
     header('Location: login.php');
     exit();
 }
 
-// Obtenha os dados do usuário logado
+// Usuario logado
 $usuario = unserialize(base64_decode($_SESSION['usuario']));
 $usuario_id = $usuario['id'];
 $usuario_tipo = $usuario['tipo'];
 
-// Crie uma instância de ReservaController
+// Instância 
 $reservaController = new ReservaController($bancoDados);
 
-// Obtenha a lista de laboratórios disponíveis
+// Lista de laboratórios disponíveis
 $query = $bancoDados->query("SELECT id, nome FROM laboratorio");
 $laboratorios = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -29,9 +29,9 @@ if ($usuario_tipo == 1) {
     $queryUsuarios = $bancoDados->query("SELECT id, nome FROM pessoa ORDER BY nome");
     $usuarios = $queryUsuarios->fetchAll(PDO::FETCH_ASSOC);
 }
-
+// Se for admin pode escolher para quem fazer a reserva
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Se o usuário for admin, ele pode escolher o usuário para quem vai fazer a reserva
+ 
     $usuario_reserva_id = ($usuario_tipo == 1 && !empty($_POST['usuario'])) ? $_POST['usuario'] : $usuario_id;
 
     $laboratorio_id = $_POST['laboratorio'];
@@ -43,13 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Verifique se os campos obrigatórios estão preenchidos
     if (!empty($laboratorio_id) && !empty($data_reserva) && !empty($hora_inicio) && !empty($hora_fim)) {
-        // Verifique se já existe uma reserva para o mesmo laboratório, data e horário
+    // Controller metodos de verificação de disponibilidade e criação da reserva
         if ($reservaController->verificarDisponibilidade($laboratorio_id, $data_reserva, $hora_inicio, $hora_fim)) {
-            // Insira a reserva no banco de dados
+           
             if ($reservaController->criarReserva($usuario_reserva_id, $laboratorio_id, $descricao, $data_reserva, $hora_inicio, $hora_fim)) {
                 $_SESSION['mensagem_sucesso'] = "Reserva realizada com sucesso!";
                 
-                // Obtenha os dados do usuário para quem a reserva foi feita
+                // Obtem os dados do usuario para qual foi criada a reserva
                 $queryUsuario = $bancoDados->prepare("SELECT email, nome FROM pessoa WHERE id = :usuario_id");
                 $queryUsuario->bindParam(':usuario_id', $usuario_reserva_id, PDO::PARAM_INT);
                 $queryUsuario->execute();
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if ($erro) {
                     echo "Erro ao enviar o e-mail: " . htmlspecialchars($erro, ENT_QUOTES, 'UTF-8');
                 } else {
-                    // Redirecione após enviar o e-mail
+                    // Volta pra tela de reserva
                     if ($usuario_tipo == 1) {
                         header('Location: reserva.php');
                     } else {
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <ul class="menu">
-        <?php if ($usuario_tipo == 0) { // Apenas usuários comuns?>
+        <?php if ($usuario_tipo == 0) { // Página para usuarios comuns?>
             <li><a href="../dashboard.php">Home</a></li>
             <?php } ?>
         
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="reserva.php" method="post">
             <h2>Reservar Laboratório</h2>
 
-            <?php if ($usuario_tipo == 1) { // Campo adicional para admins escolherem o usuário ?>
+            <?php if ($usuario_tipo == 1) { // Admins escolherem o usuário ?>
                 <div>
                     <label for="usuario">Usuário</label>
                     <select name="usuario" id="usuario" required>

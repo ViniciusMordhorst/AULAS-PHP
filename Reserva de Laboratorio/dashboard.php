@@ -1,4 +1,5 @@
 <?php
+// Página para usuario padrão/comum
 $protegido = true;
 require_once('includes/sessao.inc.php');
 

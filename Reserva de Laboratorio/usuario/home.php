@@ -1,11 +1,12 @@
 <?php 
+//Página principal do admin
 $protegido = true;
 require_once('../includes/sessao.inc.php');
 require_once("../includes/conexao.inc.php");
 
 $usuarios = array();
 
-// Consulta para obter a lista de usuários
+//Consulta para obter a lista de usuários
 $query = $bancoDados->prepare("SELECT id, nome, email, tipo FROM pessoa ORDER BY nome");
 if ($query->execute()) {
     if ($query->rowCount() > 0) {
@@ -57,7 +58,8 @@ function isAdmin($usuario) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (count($usuarios) > 0) { ?>
+                
+                <?php if (count($usuarios) > 0) { // Trecho de código que não permite o usuario padrão ver as informações da home, criado inicialmente para evitar que o usuario não veja as informações de outros?> 
                     <?php foreach ($usuarios as $usuario) { ?>
                         <tr>
                             <td><?= htmlspecialchars($usuario->id, ENT_QUOTES, 'UTF-8') ?></td>

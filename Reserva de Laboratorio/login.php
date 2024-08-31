@@ -1,4 +1,5 @@
 <?php
+//Tela de login
 require_once('includes/conexao.inc.php');
 session_start();
 
@@ -21,19 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $usuario = array(
                         'id' => $row->id,
                         'nome' => $row->nome,
-                        'tipo' => $row->tipo // 'tipo' pode ser 1 para admin ou outro valor para usuário
+                        'tipo' => $row->tipo // tipo 1 admin, 0 padrão
                     );
 
                     $_SESSION['usuario'] = base64_encode(serialize($usuario));
 
-                    // Atualize a data e hora do último login usando CURRENT_TIMESTAMP
+                    // Atualize a data e hora do último login
                     $usuario_id = $row->id;
                     $updateQuery = $bancoDados->prepare("UPDATE pessoa SET ULTIMO_LOGIN = CURRENT_TIMESTAMP WHERE id = :usuario_id");
                     $updateQuery->bindParam(':usuario_id', $usuario_id);
                     $updateQuery->execute();
 
-                    // Redireciona para a página adequada
-                    if ($row->tipo == 1) { // Tipo 1 é Admin
+                 
+                    if ($row->tipo == 1) { 
                         header('Location: usuario/home.php');
                     } else {
                         header('Location: dashboard.php');

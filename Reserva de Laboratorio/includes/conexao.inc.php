@@ -1,4 +1,5 @@
 <?php
+//Conexao com o banco
     $bancoDados = NULL;
 
     try {

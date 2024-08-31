@@ -1,9 +1,10 @@
 <?php
+//Edita o usuario
 $protegido = true;
 require_once('../includes/sessao.inc.php');
 require_once("../includes/conexao.inc.php");
 
-// Verifica se o usuário está logado e é admin
+
 if (!isset($usuarioLogado) || !isAdmin($usuarioLogado)) {
     header('Location: home.php');
     exit();

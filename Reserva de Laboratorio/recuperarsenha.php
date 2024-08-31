@@ -1,4 +1,5 @@
 <?php 
+// Arquivo de recuperação de senha
     session_start();
 
     use PHPMailer\PHPMailer\PHPMailer;

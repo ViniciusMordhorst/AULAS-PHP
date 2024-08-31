@@ -1,4 +1,5 @@
 <?php 
+//Sair
     $protegido = true;
     require_once('includes/sessao.inc.php');
 

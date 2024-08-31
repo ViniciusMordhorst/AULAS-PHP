@@ -1,4 +1,5 @@
 <?php
+// Cadastra um novo usuario, admin 1 ou padrão 0
 $protegido = true;
 require_once('../includes/sessao.inc.php');
 require_once('../includes/conexao.inc.php');
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $senha = $_POST['senha'];
     $tipo = $_POST['tipo'];
 
-    // Validations
+  
     if (empty(trim($nome))) {
         $erroNome = 'O nome não pode estar em branco';
         $erros = true;
@@ -58,14 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!$erros) {
         require_once('../includes/conexao.inc.php');
 
-        // Check if email already exists
+
         $query = $bancoDados->prepare('SELECT id FROM pessoa WHERE email = :email AND id != :id');
         $query->bindParam(':email', $email);
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
         if ($query->rowCount() == 0) {
             if ($editar) {
-                // Update query with CURRENT_TIMESTAMP for ATUALIZADO_EM
+               
                 $sql = "UPDATE pessoa SET nome = :nome, email = :email, tipo = :tipo, ATUALIZADO_EM = CURRENT_TIMESTAMP";
                 if (!empty($senha)) {
                     $sql .= ", senha = :senha";

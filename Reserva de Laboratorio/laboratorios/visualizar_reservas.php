@@ -1,8 +1,9 @@
 <?php
+//Lista as reservas
 require_once('../includes/conexao.inc.php');
 session_start();
 
-// Verifique se o usuário está logado
+
 if (!isset($_SESSION['usuario'])) {
     header('Location: login.php');
     exit();
@@ -12,7 +13,7 @@ $usuario = unserialize(base64_decode($_SESSION['usuario']));
 $usuario_id = $usuario['id'];
 $usuario_tipo = $usuario['tipo'];
 
-// Obtenha a lista de laboratórios disponíveis
+
 $query = $bancoDados->query("SELECT id, nome FROM laboratorio");
 $laboratorios = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -20,7 +21,7 @@ $reservas = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['laboratorio'])) {
     $laboratorio_id = $_POST['laboratorio'];
 
-    // Obtenha as reservas para o laboratório selecionado
+    // Reservas para o laboratório selecionado
     $queryReservas = $bancoDados->prepare("SELECT r.id, r.DESCRICAO, r.DATA, r.HORA_INICIO, r.HORA_FIM, p.id AS usuario_id, p.nome AS usuario_nome 
                                            FROM reserva r 
                                            JOIN pessoa p ON r.PESSOA_ID = p.id 
@@ -43,11 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['laboratorio'])) {
 <body>
     <div class="container">
         <ul class="menu">
-            <?php if ($usuario_tipo == 0) { // Apenas usuários comuns ?>
+            <?php if ($usuario_tipo == 0) { // Página para usuarios comuns ?>
                 <li><a href="../dashboard.php">Home</a></li>
             <?php } ?>
         
-            <?php if ($usuario_tipo == 1) { // Apenas admins podem acessar essas páginas ?>
+            <?php if ($usuario_tipo == 1) { ?>
                 <li><a href="../usuario/home.php">Home</a></li>
                 <li><a href="../usuario/cadastro.php">Cadastro</a></li>
                 <li><a href="../laboratorios/laboratorio.php">Cadastrar Laboratório</a></li>

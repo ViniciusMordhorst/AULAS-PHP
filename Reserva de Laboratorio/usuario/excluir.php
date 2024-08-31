@@ -1,5 +1,5 @@
 <?php
-
+//Exclui o usuario
 $protegido = true;
 require_once('../includes/sessao.inc.php');
 require_once("../includes/conexao.inc.php");

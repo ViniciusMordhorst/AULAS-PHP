@@ -1,4 +1,5 @@
 <?php
+// Arquivo responsavel por manter as informações do mailtrap e função enviarEmail
 session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -16,9 +17,9 @@ function enviarEmail($email, $nomeUsuario, $descricao, $data, $horaInicio, $hora
     try {
         $mail = new PHPMailer();
         $mail->isSMTP();
-        $mail->SMTPDebug = 0; // Definido para 2 para fornecer mais informações de depuração
+        $mail->SMTPDebug = 0; 
         $mail->CharSet = "UTF-8";
-        $mail->Host = "sandbox.smtp.mailtrap.io"; // Corrigido
+        $mail->Host = "sandbox.smtp.mailtrap.io"; 
         $mail->Port = 2525;
         $mail->SMTPAuth = true;
         $mail->Username = "349648680a03b3";

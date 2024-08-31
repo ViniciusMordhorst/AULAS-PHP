@@ -1,4 +1,5 @@
 <?php
+//Verifica se a reserva já existe naquele horario e cria a reserva
 require_once('../includes/conexao.inc.php');
 
 class reservaController {

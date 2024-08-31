@@ -1,4 +1,5 @@
 <?php
+//Página de cadastro para usuario padrão/comum
 require_once('includes/conexao.inc.php');
 $erro = NULL;
 

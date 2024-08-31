@@ -1,4 +1,6 @@
+
 <?php
+//Edita e exlui e chama os metodos do controller
 require_once('../includes/conexao.inc.php');
 session_start();
 
@@ -20,7 +22,7 @@ if (!isset($_GET['reserva_id']) && !isset($_POST['reserva_id'])) {
 
 $reserva_id = isset($_GET['reserva_id']) ? $_GET['reserva_id'] : $_POST['reserva_id'];
 
-// Obtenha os detalhes da reserva
+//informações da reserva
 $queryReserva = $bancoDados->prepare("SELECT r.id, r.DESCRICAO, r.DATA, r.HORA_INICIO, r.HORA_FIM, p.id AS usuario_id, p.nome AS usuario_nome
                                        FROM reserva r 
                                        JOIN pessoa p ON r.PESSOA_ID = p.id
@@ -29,13 +31,13 @@ $queryReserva->bindParam(':reserva_id', $reserva_id, PDO::PARAM_INT);
 $queryReserva->execute();
 $reserva = $queryReserva->fetch(PDO::FETCH_ASSOC);
 
-// Verifique se a reserva foi encontrada
+//Verifica se a reserva foi encontrada
 if (!$reserva) {
     echo "Reserva não encontrada.";
     exit();
 }
 
-// Processamento de exclusão
+// Função de exclusão
 if (isset($_POST['excluir'])) {
     if ($usuario_tipo == 1 || $usuario_id == ($reserva['usuario_id'] ?? null)) {
         $queryExcluir = $bancoDados->prepare("DELETE FROM reserva WHERE id = :reserva_id");
@@ -46,9 +48,8 @@ if (isset($_POST['excluir'])) {
     }
 }
 
-// Processamento de edição
+// Função de edição
 if (isset($_POST['editar'])) {
-    // Atualizar a reserva com os novos dados
     $descricao = $_POST['descricao'];
     $data = $_POST['data'];
     $hora_inicio = $_POST['hora_inicio'];
@@ -63,7 +64,7 @@ if (isset($_POST['editar'])) {
         $queryEditar->bindParam(':reserva_id', $reserva_id, PDO::PARAM_INT);
         $queryEditar->execute();
         
-        // Recarregar a reserva atualizada
+
         $queryReserva->execute();
         $reserva = $queryReserva->fetch(PDO::FETCH_ASSOC);
     }
@@ -107,7 +108,7 @@ if (isset($_POST['editar'])) {
 
         <?php if ($usuario_tipo == 1 || $usuario_id == ($reserva['usuario_id'] ?? null)) { ?>
             <form method="post">
-                <input type="hidden" name="reserva_id" value="<?= $reserva_id ?>">
+             <input type="hidden" name="reserva_id" value="<?= $reserva_id ?>">
                 
                 <!-- Formulário de Edição -->
                 <div>

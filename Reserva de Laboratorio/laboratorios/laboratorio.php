@@ -1,4 +1,5 @@
 <?php
+// Cadastra um novo laboratorio
 $protegido = true;
 require_once('../includes/sessao.inc.php');
 
