@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($query->execute()) {
                 $bancoDados = NULL;
                 $_SESSION['mensagem_sucesso'] = "Laboratório cadastrado com sucesso!";
-                header('Location: /usuario/home.php');
+                header('Location: ../usuario/home.php');
             }
         }
     } else {
