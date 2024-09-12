@@ -1,0 +1,371 @@
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.container-center {
+    min-height: 100vh;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+
+.container {
+    min-height: 100vh;
+    padding: 0 10px;
+}
+
+.container-center form {
+    width: 30%;
+    margin: 0 auto;
+    background-color: #faf7f7;
+    padding: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+form {
+    width: 30%;
+    margin: 0 auto;
+    background-color: #faf7f7;
+    padding: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+
+form > h2 {
+    color: #6a6a6a;
+    margin: 0px;
+    margin-bottom: 5px;
+}
+
+form > div {
+    padding: 10px;
+    display: grid;
+    align-items: center;
+}
+
+form > div > label {
+    font-weight: 700;
+    display: block;
+    padding-bottom: 5px;
+    color: #6a6a6a;
+
+}
+
+form > div > input {
+    height: 25px;
+}
+
+form > div > button {
+    height: 40px;
+    font-size: 16px;
+    font-weight: 800;
+    background-color: #0457d3;
+    border: 0;
+    color: white;
+}
+
+form > div > button:hover {
+    background-color: #055cde;
+    cursor: pointer;
+}
+
+form > div > span {
+    color: red;
+    font-size: 12px;
+    padding-top: 5px;
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    background-color: #505050;
+    color: white;
+    padding: 0 20px;
+    margin-bottom: 50px;
+}
+
+.menu > li{
+    margin-right: 20px;
+}
+
+.menu > li:last-child {
+    margin-left: auto;
+}
+
+.menu > li > a {
+    color: white;
+    display: block;
+    text-decoration: none;
+    padding: 20px 20px;
+}
+
+.menu > li > a:hover {
+    text-decoration: underline;
+}
+
+table {
+    border: 0px;
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+table > thead {
+    background-color: #c7c4c4;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase !important;
+}
+
+table td {
+    padding: 10px 5px;
+}
+
+table td:first-child {
+    width: 70px;
+    text-align: center;
+}
+
+table td:last-child {
+    width: 150px;
+    text-align: center;
+}
+
+table td:last-child > a {
+    text-transform: lowercase !important;
+    text-decoration: none;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #efefef;
+}
+
+.btn-editar {
+    background-color: #ecae02;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 15px;
+}
+
+
+.btn-container {
+    text-align: center; /* Centraliza o botão dentro do contêiner */
+}
+
+
+
+.btn-excluir {
+    background-color: #d30404;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 15px;
+}
+
+.btn-excluir:hover {
+    background-color: #ea0404;
+}
+
+.btn-salvar {
+    display: inline-flex;            /* Permite o uso de flexbox para alinhar conteúdo */
+    align-items: center;             /* Centraliza o texto verticalmente */
+    justify-content: center;         /* Centraliza o texto horizontalmente */
+    padding: 20px 50px;              /* Padding para definir o espaço interno */
+    font-size: 16px;
+    border: 0;
+    border-radius: 25px;
+    font-weight: 800;
+    background-color: #02af44;
+    color: white;
+    text-align: center;              /* Garante que o texto dentro esteja centralizado */
+    width: 200px;                    /* Define uma largura fixa (se necessário) */
+    height: 50px;                    /* Define uma altura fixa (se necessário) */
+    box-sizing: border-box;          /* Inclui padding e borda no tamanho total */
+    margin: 20px auto;               /* Centraliza o botão horizontalmente */
+}
+
+.container-center {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+}
+
+.btn-salvar:hover {
+    background-color: #05c44e;
+    cursor: pointer;
+    text-align: center;
+}
+
+.mensagem-sucesso{
+    width: 50%;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: #00ff62;
+    color: #bed304;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.mensagem-erro{
+    width: 50%;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+
+
+/* Menu */
+
+
+.menu li {
+    display: inline;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 20px;
+    display: block;
+    transition: background 0.3s;
+}
+
+.menu a:hover {
+    background: #02af44;;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #02af44;
+    text-align: center;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background: #02af44;;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    
+  
+}
+
+form button:hover {
+    background: #02af44;;
+}
+
+/* Erro */
+span {
+    color: red;
+    font-size: 14px;
+}
+
+/* Estilo da Tabela Visual*/
+table {
+    border: 0px;
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+table > thead {
+    background-color: #c7c4c4;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase !important;
+}
+
+table td, table th {
+    padding: 15px; /* Aumentar o padding para criar mais espaço interno */
+    text-align: left; /* Alinhar o texto à esquerda */
+    border-bottom: 1px solid #ddd; /* Adicionar uma borda inferior para separar visualmente as linhas */
+}
+
+table th {
+    background-color: #f2f2f2; /* Cor de fundo para o cabeçalho da tabela */
+}
+
+table td:first-child {
+    width: 70px;
+    text-align: center;
+}
+
+table td:last-child {
+    width: 150px;
+    text-align: center;
+}
+
+table td:last-child > a {
+    text-transform: lowercase !important;
+    text-decoration: none;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #efefef;
+}
+
+/* Adicionar espaçamento entre as colunas */
+table td {
+    min-width: 100px; /* Define uma largura mínima para as células */
+    padding: 10px 15px; /* Espaçamento maior para mais clareza */
+}
+
+table th {
+    padding: 15px 20px; /* Padding maior para as células do cabeçalho */
+}
+
+/* Ajuste da altura das células */
+table td, table th {
+    line-height: 1.5; /* Define uma altura de linha para aumentar o espaçamento vertical */
+}
+
